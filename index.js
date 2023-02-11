@@ -18,16 +18,14 @@ const Npot = fs.readFileSync('./index.html', 'utf-8', (err,data) => {
     if(err) throw err
     return data
 })
-function ListCreate(data) {
-    return(
-        <>
-            <ul>
-                {data.map(elem => <li><p>{elem.name}</p></li>)}
-            </ul>
-        </>
-    )
-}
-console.log(ListCreate());
+const datElm = fs.readFileSync('../db.json', 'utf-8', (err,data) => {
+    if(err) throw err
+    return data
+})
+
+const ListElem = require('./function.js')
+const a= JSON.parse(datElm)
+
 http.createServer(function(req,res){
     const {pathname, query} = url.parse(req.url, true)
     if(pathname=='/'){
@@ -36,10 +34,12 @@ http.createServer(function(req,res){
     }
     if(pathname=='/cars'){
         res.writeHead(200,{'Content-Type':'text/html'})
+        res.write(ListElem(a.cars))
         res.end(Cars)
     }
     if(pathname=='/fruit'){
         res.writeHead(200,{'Content-Type':'text/html'})
+        res.write(ListElem(a.Fruit))
         res.end(Fruit)
     }
     else{
