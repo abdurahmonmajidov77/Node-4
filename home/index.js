@@ -14,7 +14,10 @@ const Data = fs.readFileSync('./back.json','utf-8', (err,data) => {
 const a= JSON.parse(Data)
 
 http.createServer(function(req,res){
-    res.writeHead(200, {'Content-Type':'text/html'})
-    res.write(ListElem(a))
-    res.end(Home)
+    const {pathname, query} = url.parse(req.url, true)
+    if(pathname=='/'){
+        res.writeHead(200, {'Content-Type':'text/html'})
+        res.write(ListElem(a))
+        res.end(Home)
+    }
 }).listen(1001)
